@@ -15,7 +15,7 @@ export class HomePage {
   constructor(public http: HttpClient) {
   }
 
-  //イベントキーをサイトを開いた時にkintoneから取ってくる
+
 
 
 
