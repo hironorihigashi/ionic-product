@@ -4,21 +4,92 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      List
+      アンケート提出状況
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-card class="welcome-card">
+  <ion-card-header>
+
+      <ion-card-content>
+            <ion-list-header> ▽確認するイベント枠を選んでください</ion-list-header>
+            <ion-item>
+              <ion-label position="stacked" >イベントキー(例:20年8月2日に行うTS30は200802_TS30)</ion-label>
+              <ion-input type = "text" required [(ngModel)]="input_data.event_key" name = "event_key" value="200802_TS30"></ion-input>
+            </ion-item>
+
+      </ion-card-content>
+
+  <p><ion-button (click)="check()">最新のアンケート結果を取得</ion-button></p>
+</ion-card-header>
+  </ion-card>
+
+
+
+  <ion-card>
   <ion-list>
-    <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
-      <div class="item-note" slot="end">
-        {{item.note}}
-      </div>
-    </ion-item>
+    <p>【企業アンケート結果】</p>
+
+    <ion-grid>
+      <ion-row >
+        <ion-col *ngFor = "let company of c_name">
+          <font color="red"><b><u>{{company}}</u></b></font>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+    <ion-item *ngFor="let s of s_name index as i">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <b>{{s}}</b>
+        </ion-col>
+        <ion-col *ngFor = "let c of c_answer[i]">
+          {{c}}
+        </ion-col>
+
+    </ion-row>
+  </ion-grid>
+  </ion-item>
+
   </ion-list>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-list>
+      <p>【学生アンケート結果】</p>
+
+      <ion-grid>
+        <ion-row >
+          <ion-col *ngFor = "let company of c_name">
+            <b>{{company}}</b>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+      <ion-item *ngFor="let student of s_answer index as i">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+          <font color="red"><b><u>{{s_name[i]}}</u></b></font>
+          </ion-col>
+            <ion-col *ngFor="let s of student">
+              {{s}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+
+
   <!--
     <div *ngIf="selectedItem" padding>
       You navigated here from <b>{{selectedItem.title }}</b>

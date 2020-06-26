@@ -4,45 +4,154 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home
+      マッチング管理
     </ion-title>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content>
   <ion-card class="welcome-card">
     <img src="/assets/shapes.svg" alt=""/>
     <ion-card-header>
-      <ion-card-subtitle>Get Started</ion-card-subtitle>
-      <ion-card-title>Welcome to Ionic</ion-card-title>
+      <ion-card-title>TSマッチング</ion-card-title>
+      <ion-card-subtitle>マッチング条件を決めてボタンを押すと現在のアンケート内容から最適なマッチ結果を出力します</ion-card-subtitle>
+      <ion-card-subtitle>公開ボタンを押すまでは何回でもマッチングをやり直せます</ion-card-subtitle>
+
     </ion-card-header>
     <ion-card-content>
+          <ion-list-header> ▽マッチングのイベント枠を選んでください</ion-list-header>
+          <ion-item>
+            <ion-label position="stacked" >イベントキー(例:20年8月2日に行うTS30は200802_TS30)</ion-label>
+            <ion-input type = "text" required [(ngModel)]="input_data.event_key" name = "event_key" value="200802_TS30"></ion-input>
+          </ion-item>
+    </ion-card-content>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-list-header>▽マッチングの追加条件</ion-list-header>
+<!--
+        <ion-item>
+          <ion-toggle [(ngModel)]="test1"></ion-toggle>
+          <ion-label>企業は必ず1回に3人以上と面談する</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-toggle [(ngModel)]="test2"></ion-toggle>
+          <ion-label>学生の空き時間は出さないようにする</ion-label>
+        </ion-item>
+-->
+        <ion-item>
+          <ion-toggle [(ngModel)]="input_data.priority_c" value = "priority_c"></ion-toggle>
+          <ion-label>学生が☓でも企業が望めばマッチさせる</ion-label>
+        </ion-item>
+      </ion-list>
+
       <p>
-        Now that your app has been created, you'll want to start building out features
-        and components. Check out some of the resources below for next steps.
+        <ion-button (click)="makeMatching()">現在のデータでマッチングを行う</ion-button>
       </p>
+          <a>※何度でも押せる。マッチ結果を表示ボタンを押すと、警告メッセージが出るようにする</a>
     </ion-card-content>
   </ion-card>
 
-  <ion-list lines="none">
-    <ion-list-header>
-      <ion-label>Resources</ion-label>
-    </ion-list-header>
-    <ion-item href="https://ionicframework.com/docs/">
-      <ion-icon slot="start" color="medium" name="book"></ion-icon>
-      <ion-label>Ionic Documentation</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-      <ion-icon slot="start" color="medium" name="build"></ion-icon>
-      <ion-label>Scaffold Out Your App</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/layout/structure">
-      <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-      <ion-label>Change Your App Layout</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/theming/basics">
-      <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-      <ion-label>Theme Your App</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <ion-card-header>
+    <ion-card-title>マッチング結果</ion-card-title>
+    <ion-card-subtitle>データマッチングするとこの下にマッチ結果を表示します</ion-card-subtitle>
+    </ion-card-header>
+
+
+
+
+    <ion-card-content>
+      <ion-list>
+        <p>【タームごと満足度合計】</p>
+        <ion-item *ngFor="let satis of satisfaction_result" >
+          {{satis}}
+        </ion-item>
+      </ion-list>
+
+
+      <ion-list>
+        <p>【企業側の結果】</p>
+          <ion-item>
+          <ion-grid>
+
+            <ion-row>
+              <ion-col *ngFor="let tName of term_name" >
+                <b><u>{{tName}}</u></b>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        </ion-item>
+
+        <ion-item *ngFor="let company of company_result index as i">
+          <ion-grid>
+          <ion-row>
+            <ion-col>
+          <font color="red"><br><b>{{company_name[i]}}</b></font>
+          </ion-col>
+
+            <ion-col *ngFor="let c of company" >
+            1.{{c[0]}}
+            <br>2.{{c[1]}}
+            <br>3.{{c[2]}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      </ion-item>
+      </ion-list>
+
+
+      <ion-list>
+        <p>【学生側の結果】</p>
+        <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let tName of term_name" >
+              <b><u>{{tName}}</u></b>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      </ion-item>
+
+      <ion-item *ngFor="let student of student_result index as i">
+      <ion-grid>
+      <ion-row>
+            <ion-col>
+              <font color="red"><b>{{student_name[i]}}</b></font>
+            </ion-col>
+            <ion-col>
+              {{student[0]}}
+            </ion-col>
+            <ion-col>
+              {{student[1]}}
+            </ion-col>
+            <ion-col>
+              {{student[2]}}
+            </ion-col>
+            <ion-col>
+              {{student[3]}}
+            </ion-col>
+            <ion-col>
+              {{student[4]}}
+            </ion-col>
+            <ion-col>
+              {{student[5]}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        </ion-item>
+      </ion-list>
+
+
+
+    <p>
+      <ion-button (click)="openkintone()">マッチング結果を参加者に公開する</ion-button>
+    </p>
+    <a>※押したら再確認させる。マッチングボタンを押したときに結果が変わる旨と結果が非表示になる旨が表示される</a>
+    </ion-card-content>
+
+  </ion-card>
+
 </ion-content>
