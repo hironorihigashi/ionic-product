@@ -25,6 +25,8 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "core-js": "^2.5.4",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.10.2"
@@ -55,8 +57,8 @@
     "tslint": "~5.15.0",
     "typescript": "~3.7.5"
   },
-  "engines":{
-    "node":"~10.16.0",
+  "engines": {
+    "node": "~10.16.0",
     "npm": "~6.9.0"
   }
 }
